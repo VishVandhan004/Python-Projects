@@ -54,6 +54,7 @@ def init_db():
     try:
         conn = get_db_connection()
         cur = conn.cursor()  # This must be INSIDE try block
+        cur.execute("ALTER TABLE users ALTER COLUMN email TYPE VARCHAR(255);")
         
         cur.execute(''' 
             CREATE TABLE IF NOT EXISTS users (
