@@ -52,8 +52,17 @@ def get_db_connection():
 def init_db():
     try:
         conn = get_db_connection()
-        cur = conn.cursor()  # This must be INSIDE try block
+        cur = conn.cursor()
         
+        # If the users table already exists with smaller columns, enlarge them:
+        cur.execute("""
+            ALTER TABLE users
+            ALTER COLUMN email TYPE VARCHAR(255),
+            ALTER COLUMN password TYPE VARCHAR(255);
+        """)
+        # (if table doesn't exist yet, this ALTER will be ignored)
+
+        # Create users table with desired column sizes
         cur.execute('''
             CREATE TABLE IF NOT EXISTS users (
                 id SERIAL PRIMARY KEY,
@@ -62,28 +71,33 @@ def init_db():
                 password VARCHAR(255) NOT NULL
             )
         ''')
-        
+
+        # Create expenses table
         cur.execute('''
-            CREATE TABLE IF NOT EXISTS users (
-            id SERIAL PRIMARY KEY,
-            username VARCHAR(100) UNIQUE NOT NULL,  
-            email VARCHAR(255) UNIQUE NOT NULL,     
-            password VARCHAR(255) NOT NULL          
-        )
+            CREATE TABLE IF NOT EXISTS expenses (
+                id SERIAL PRIMARY KEY,
+                user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                amount NUMERIC(12,2) NOT NULL,
+                category VARCHAR(50) NOT NULL,
+                note TEXT,
+                date TIMESTAMP NOT NULL
+            )
         ''')
-        
+
+        # Indexes for faster lookups
         cur.execute('CREATE INDEX IF NOT EXISTS idx_expenses_user_id ON expenses(user_id)')
         cur.execute('CREATE INDEX IF NOT EXISTS idx_expenses_date ON expenses(date)')
-        
+
         conn.commit()
     except Exception as e:
         print(f"Database initialization error: {e}")
-        raise  # Re-raise the exception after logging
+        raise
     finally:
-        if 'conn' in locals():  # Safely close connections
-            if 'cur' in locals():
-                cur.close()
+        if 'cur' in locals():
+            cur.close()
+        if 'conn' in locals():
             conn.close()
+
 
 init_db()
 
