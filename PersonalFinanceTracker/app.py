@@ -7,7 +7,6 @@ logging.basicConfig(
         logging.StreamHandler()
     ]
 )
-
 import os
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -47,16 +46,15 @@ def get_db_connection():
         return conn
     except Exception as e:
         print(f"CRITICAL: Database connection failed: {e}")  # Detailed error
-        raise  # Re-raise to be caught by route handlers
+        raise  # Re-raise to be caught by route handlers caught by route handlers
 
 # Initialize database
 def init_db():
     try:
         conn = get_db_connection()
         cur = conn.cursor()  # This must be INSIDE try block
-        cur.execute("ALTER TABLE users ALTER COLUMN email TYPE VARCHAR(255);")
         
-        cur.execute(''' 
+        cur.execute('''
             CREATE TABLE IF NOT EXISTS users (
                 id SERIAL PRIMARY KEY,
                 username VARCHAR(50) UNIQUE NOT NULL,
@@ -65,16 +63,13 @@ def init_db():
             )
         ''')
         
-        cur.execute(''' 
-            CREATE TABLE IF NOT EXISTS expenses (
-                id SERIAL PRIMARY KEY,
-                user_id INTEGER NOT NULL,
-                amount FLOAT NOT NULL,
-                category VARCHAR(50) NOT NULL,
-                note TEXT,
-                date TIMESTAMP NOT NULL,
-                FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
-            )
+        cur.execute('''
+            CREATE TABLE IF NOT EXISTS users (
+            id SERIAL PRIMARY KEY,
+            username VARCHAR(100) UNIQUE NOT NULL,  
+            email VARCHAR(255) UNIQUE NOT NULL,     
+            password VARCHAR(255) NOT NULL          
+        )
         ''')
         
         cur.execute('CREATE INDEX IF NOT EXISTS idx_expenses_user_id ON expenses(user_id)')
@@ -89,6 +84,8 @@ def init_db():
             if 'cur' in locals():
                 cur.close()
             conn.close()
+
+init_db()
 
 # Routes
 @app.route('/')
@@ -167,6 +164,7 @@ def signup():
             if 'cur' in locals(): cur.close()
             if 'conn' in locals(): conn.close()
     
+    # Default return for GET requests and failed POSTs
     return render_template('signup.html')  # Ensures always returns response
 
 @app.route('/logout')
@@ -290,7 +288,6 @@ def stats():
         cur.close()
         conn.close()
 
-# Add at the bottom
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
