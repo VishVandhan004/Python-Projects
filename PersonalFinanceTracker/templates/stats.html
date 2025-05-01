@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics - Personal Finance Tracker</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Your Spending Statistics</h1>
+            <nav>
+                <a href="./dashboard.html">Dashboard</a>
+                <a href="./add_expense.html">Add Expense</a>
+                <a href="./stats.html">Statistics</a>
+                <a href="./logout.html">Logout</a>
+            </nav>
+        </header>
+        
+        <section class="stats-section">
+            <h2>Daily Spending</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Total Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for day in daily_stats %}
+                    <tr>
+                        <td>{{ day[0] }}</td>
+                        <td>${{ "%.2f"|format(day[1]) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="stats-section">
+            <h2>Monthly Spending</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Total Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for month in monthly_stats %}
+                    <tr>
+                        <td>{{ month[0] }}</td>
+                        <td>${{ "%.2f"|format(month[1]) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="stats-section">
+            <h2>Yearly Spending</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Year</th>
+                        <th>Total Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for year in yearly_stats %}
+                    <tr>
+                        <td>{{ year[0] }}</td>
+                        <td>${{ "%.2f"|format(year[1]) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </div>
+</body>
+</html>

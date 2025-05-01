@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Personal Finance Tracker</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Welcome to Your Finance Dashboard</h1>
+            <nav>
+                <a href="./dashboard.html">Dashboard</a>
+                <a href="./add_expense.html">Add Expense</a>
+                <a href="./stats.html">Statistics</a>
+                <a href="./logout.html">Logout</a>
+            </nav>
+        </header>
+        
+        <div class="summary-card">
+            <h3>Total Spent: ${{ "%.2f"|format(total) }}</h3>
+        </div>
+        
+        <section class="recent-expenses">
+            <h2>Recent Expenses</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Amount</th>
+                        <th>Category</th>
+                        <th>Note</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for expense in expenses %}
+                    <tr>
+                        <td>${{ "%.2f"|format(expense[0]) }}</td>
+                        <td>{{ expense[1] }}</td>
+                        <td>{{ expense[2] }}</td>
+                        <td>{{ expense[3].strftime('%Y-%m-%d %H:%M') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </div>
+</body>
+</html>
