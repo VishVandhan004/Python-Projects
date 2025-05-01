@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistics - Personal Finance Tracker</title>
-    <link rel="stylesheet" href="../static/style.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Stats - Cashflow Commander</title>
+        <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/png">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
 <body>
     <div class="container">
         <header>
             <h1>Your Spending Statistics</h1>
             <nav>
-                <a href="./dashboard.html">Dashboard</a>
-                <a href="./add_expense.html">Add Expense</a>
-                <a href="./stats.html">Statistics</a>
-                <a href="./logout.html">Logout</a>
+                <nav>
+                    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                    <a href="{{ url_for('add_expense') }}">Add Expense</a>
+                    <a href="{{ url_for('stats') }}">Statistics</a>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </nav>
             </nav>
         </header>
         
@@ -31,7 +34,7 @@
                     {% for day in daily_stats %}
                     <tr>
                         <td>{{ day[0] }}</td>
-                        <td>${{ "%.2f"|format(day[1]) }}</td>
+                        <td>₹ {{ "%.2f"|format(day[1]) }} /-</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -51,7 +54,7 @@
                     {% for month in monthly_stats %}
                     <tr>
                         <td>{{ month[0] }}</td>
-                        <td>${{ "%.2f"|format(month[1]) }}</td>
+                        <td>₹ {{ "%.2f"|format(month[1]) }} /-</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -71,7 +74,7 @@
                     {% for year in yearly_stats %}
                     <tr>
                         <td>{{ year[0] }}</td>
-                        <td>${{ "%.2f"|format(year[1]) }}</td>
+                        <td>₹ {{ "%.2f"|format(year[1]) }} /-</td>
                     </tr>
                     {% endfor %}
                 </tbody>

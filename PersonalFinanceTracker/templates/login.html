@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Personal Finance Tracker</title>
-    <link rel="stylesheet" href="../static/style.css"">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login - Cashflow Commander</title>
+        <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/png">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
 <body>
     <div class="container">
         <div class="auth-form">
@@ -17,7 +18,7 @@
                     </div>
                 {% endif %}
             {% endwith %}
-            <form method="POST" action="./login.html">
+            <form method="POST" action="{{ url_for('login') }}">
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" required>
@@ -28,7 +29,7 @@
                 </div>
                 <button type="submit" class="btn">Login</button>
             </form>
-            <p>Don't have an account? <a href="./signup.html">Sign up</a></p>
+            <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up</a></p>
         </div>
     </div>
 </body>

@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logged Out - CashFlow Commander</title>
-    <link rel="stylesheet" href="../static/style.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Logout - Cashflow Commander</title>
+        <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/png">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
 <body>
     <div class="container">
         <div class="logout-message">
             <h2>🚀 You've Successfully Logged Out</h2>
             <p>Your financial data is securely stored. Come back anytime!</p>
             <div class="auth-buttons">
-                <a href="./login.html" class="btn">Login Again</a>
-                <a href="./index.html" class="btn secondary">Return Home</a>
+                <a href="{{ url_for('login') }}" class="btn">Login Again</a>
+                <a href="{{ url_for('index') }}" class="btn secondary">Return Home</a>
             </div>
         </div>
     </div>

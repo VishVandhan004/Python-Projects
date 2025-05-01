@@ -1,3 +1,12 @@
+import logging
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('app.log'),
+        logging.StreamHandler()
+    ]
+)
 import os
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -9,35 +18,41 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates', static_folder='static')
 app.secret_key = os.environ.get('SECRET_KEY') or 'dev-secret-key'
 
 # Database connection
 def get_db_connection():
-    if os.environ.get('DATABASE_URL'):
-        result = urlparse(os.environ['DATABASE_URL'])
-        conn = psycopg2.connect(
-            dbname=result.path[1:],
-            user=result.username,
-            password=result.password,
-            host=result.hostname,
-            port=result.port,
-            sslmode='require'
-        )
-    else:
-        conn = psycopg2.connect(
-            dbname='finance_tracker',
-            user='postgres',
-            password=os.environ.get('DB_PASSWORD', 'postgres'),
-            host='localhost'
-        )
-    return conn
+    try:
+        if os.environ.get('DATABASE_URL'):
+            print("DEBUG: Using DATABASE_URL from environment")  # Debug log
+            conn = psycopg2.connect(
+                os.environ['DATABASE_URL'],
+                sslmode='prefer',
+                connect_timeout=5  # Add timeout
+            )
+        else:
+            print("DEBUG: Using local database connection")  # Debug log
+            conn = psycopg2.connect(
+                dbname='finance_tracker',
+                user='finance_user',
+                password=os.environ.get('DB_PASSWORD', 'yourpassword'),
+                host='localhost',
+                port=5432,
+                sslmode='prefer',
+                connect_timeout=5  # Add timeout
+            )
+        print("DEBUG: Database connection successful")  # Debug log
+        return conn
+    except Exception as e:
+        print(f"CRITICAL: Database connection failed: {e}")  # Detailed error
+        raise  # Re-raise to be caught by route handlers
 
 # Initialize database
 def init_db():
     try:
         conn = get_db_connection()
-        cur = conn.cursor()
+        cur = conn.cursor()  # This must be INSIDE try block
         
         cur.execute('''
             CREATE TABLE IF NOT EXISTS users (
@@ -49,14 +64,12 @@ def init_db():
         ''')
         
         cur.execute('''
-            CREATE TABLE IF NOT EXISTS expenses (
-                id SERIAL PRIMARY KEY,
-                user_id INTEGER NOT NULL REFERENCES users(id),
-                amount DECIMAL(10, 2) NOT NULL,
-                category VARCHAR(50) NOT NULL,
-                note TEXT,
-                date TIMESTAMP NOT NULL
-            )
+            CREATE TABLE IF NOT EXISTS users (
+            id SERIAL PRIMARY KEY,
+            username VARCHAR(100) UNIQUE NOT NULL,  
+            email VARCHAR(255) UNIQUE NOT NULL,     
+            password VARCHAR(255) NOT NULL          
+        )
         ''')
         
         cur.execute('CREATE INDEX IF NOT EXISTS idx_expenses_user_id ON expenses(user_id)')
@@ -65,9 +78,12 @@ def init_db():
         conn.commit()
     except Exception as e:
         print(f"Database initialization error: {e}")
+        raise  # Re-raise the exception after logging
     finally:
-        cur.close()
-        conn.close()
+        if 'conn' in locals():  # Safely close connections
+            if 'cur' in locals():
+                cur.close()
+            conn.close()
 
 init_db()
 
@@ -105,29 +121,51 @@ def login():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        username = request.form['username']
-        email = request.form['email']
-        password = generate_password_hash(request.form['password'])
+        username = request.form.get('username', '')[:50]  # Safe get with truncation
+        email = request.form.get('email', '')[:100]
+        password = request.form.get('password', '')
         
+        # Validate inputs
+        if not all([username, email, password]):
+            flash('All fields are required')
+            return render_template('signup.html')  # Explicit return
+            
+        if len(username) < 3:
+            flash('Username must be at least 3 characters')
+            return render_template('signup.html')
+            
+        if len(password) < 8:
+            flash('Password must be at least 8 characters')
+            return render_template('signup.html')
+            
+        if '@' not in email:
+            flash('Invalid email format')
+            return render_template('signup.html')
+
         try:
             conn = get_db_connection()
             cur = conn.cursor()
+            hashed_pw = generate_password_hash(password)
+            
             cur.execute(
                 'INSERT INTO users (username, email, password) VALUES (%s, %s, %s)',
-                (username, email, password)
+                (username, email, hashed_pw)
             )
             conn.commit()
-            return redirect(url_for('login'))
+            flash('Account created successfully! Please log in.')
+            return redirect(url_for('login'))  # Explicit return
+            
         except psycopg2.IntegrityError:
             flash('Username or email already exists')
         except Exception as e:
+            print(f"Signup error: {str(e)}")
             flash('Database error occurred')
-            print(e)
         finally:
-            cur.close()
-            conn.close()
+            if 'cur' in locals(): cur.close()
+            if 'conn' in locals(): conn.close()
     
-    return render_template('signup.html')
+    # Default return for GET requests and failed POSTs
+    return render_template('signup.html')  # Ensures always returns response
 
 @app.route('/logout')
 def logout():
@@ -249,11 +287,6 @@ def stats():
     finally:
         cur.close()
         conn.close()
-
-@app.route('/logout')
-def logout():
-    session.pop('user_id', None)
-    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True)

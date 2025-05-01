@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Personal Finance Tracker</title>
-    <link rel="stylesheet" href="../static/style.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard - Cashflow Commander</title>
+        <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/png">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
 <body>
     <div class="container">
         <header>
             <h1>Welcome to Your Finance Dashboard</h1>
             <nav>
-                <a href="./dashboard.html">Dashboard</a>
-                <a href="./add_expense.html">Add Expense</a>
-                <a href="./stats.html">Statistics</a>
-                <a href="./logout.html">Logout</a>
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('add_expense') }}">Add Expense</a>
+                <a href="{{ url_for('stats') }}">Statistics</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
             </nav>
         </header>
         
         <div class="summary-card">
-            <h3>Total Spent: ${{ "%.2f"|format(total) }}</h3>
+            <h3>Total Spent: ₹ {{ "%.2f"|format(total) }} /- </h3>
         </div>
         
         <section class="recent-expenses">
@@ -36,7 +37,7 @@
                 <tbody>
                     {% for expense in expenses %}
                     <tr>
-                        <td>${{ "%.2f"|format(expense[0]) }}</td>
+                        <td>₹ {{ "%.2f"|format(expense[0]) }} /-</td>
                         <td>{{ expense[1] }}</td>
                         <td>{{ expense[2] }}</td>
                         <td>{{ expense[3].strftime('%Y-%m-%d %H:%M') }}</td>
