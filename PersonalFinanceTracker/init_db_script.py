@@ -1,2 +1,5 @@
+# init_db_script.py
 from app import init_db
-init_db()
+
+if __name__ == "__main__":
+    init_db()
