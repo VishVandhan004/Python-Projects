@@ -1,6 +1,7 @@
 # 💰 CashFlow Commander - Personal Finance Tracker
 
-![Dashboard Preview]()  
+
+![Dashboard Preview](image.png)  
 *A modern, intuitive way to track your finances*
 
 ## 🌟 Key Features
