@@ -26,7 +26,7 @@ app.secret_key = os.environ.get('SECRET_KEY') or 'dev-secret-key'
 def get_db_connection():
     try:
         if os.environ.get('DATABASE_URL'):
-            print("DEBUG: Using DATABASE_URL from environment")  # Debug log
+            print(f"DEBUG: Connecting to database using URL: {os.environ['DATABASE_URL']}")
             conn = psycopg2.connect(
                 os.environ['DATABASE_URL'],
                 sslmode='prefer',
