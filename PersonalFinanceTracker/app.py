@@ -7,6 +7,7 @@ logging.basicConfig(
         logging.StreamHandler()
     ]
 )
+
 import os
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -25,14 +26,14 @@ app.secret_key = os.environ.get('SECRET_KEY') or 'dev-secret-key'
 def get_db_connection():
     try:
         if os.environ.get('DATABASE_URL'):
-            print(f"DEBUG: Connecting to database using URL: {os.environ['DATABASE_URL']}")
+            logging.debug(f"Connecting to database using URL: {os.environ['DATABASE_URL']}")
             conn = psycopg2.connect(
                 os.environ['DATABASE_URL'],
                 sslmode='prefer',
-                connect_timeout=5  # Add timeout
+                connect_timeout=5
             )
         else:
-            print("DEBUG: Using local database connection")  # Debug log
+            logging.debug("Using local database connection")
             conn = psycopg2.connect(
                 dbname='finance_tracker',
                 user='finance_user',
@@ -40,29 +41,21 @@ def get_db_connection():
                 host='localhost',
                 port=5432,
                 sslmode='prefer',
-                connect_timeout=5  # Add timeout
+                connect_timeout=5
             )
-        print("DEBUG: Database connection successful")  # Debug log
+        logging.debug("Database connection successful")
         return conn
     except Exception as e:
-        print(f"CRITICAL: Database connection failed: {e}")  # Detailed error
-        raise  # Re-raise to be caught by route handlers caught by route handlers
+        logging.critical(f"Database connection failed: {e}")
+        raise
 
 # Initialize database
 def init_db():
     try:
         conn = get_db_connection()
         cur = conn.cursor()
-        
-        # If the users table already exists with smaller columns, enlarge them:
-        cur.execute("""
-            ALTER TABLE users
-            ALTER COLUMN email TYPE VARCHAR(255),
-            ALTER COLUMN password TYPE VARCHAR(255);
-        """)
-        # (if table doesn't exist yet, this ALTER will be ignored)
 
-        # Create users table with desired column sizes
+        # Create or update the users table
         cur.execute('''
             CREATE TABLE IF NOT EXISTS users (
                 id SERIAL PRIMARY KEY,
@@ -71,6 +64,16 @@ def init_db():
                 password VARCHAR(255) NOT NULL
             )
         ''')
+
+        # Try to enlarge columns if the table already exists
+        try:
+            cur.execute("""
+                ALTER TABLE users
+                ALTER COLUMN email TYPE VARCHAR(255),
+                ALTER COLUMN password TYPE VARCHAR(255)
+            """)
+        except Exception as e:
+            logging.info("Alter skipped or unnecessary: " + str(e))
 
         # Create expenses table
         cur.execute('''
@@ -84,20 +87,17 @@ def init_db():
             )
         ''')
 
-        # Indexes for faster lookups
+        # Create indexes
         cur.execute('CREATE INDEX IF NOT EXISTS idx_expenses_user_id ON expenses(user_id)')
         cur.execute('CREATE INDEX IF NOT EXISTS idx_expenses_date ON expenses(date)')
 
         conn.commit()
     except Exception as e:
-        print(f"Database initialization error: {e}")
+        logging.error(f"Database initialization error: {e}")
         raise
     finally:
-        if 'cur' in locals():
-            cur.close()
-        if 'conn' in locals():
-            conn.close()
-
+        if 'cur' in locals(): cur.close()
+        if 'conn' in locals(): conn.close()
 
 init_db()
 
