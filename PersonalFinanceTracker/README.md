@@ -1,6 +1,9 @@
 # 💰 CashFlow Commander - Personal Finance Tracker
 
-CashFlow Commander is your streamlined solution for mastering personal finance. Designed with both functionality and user experience in mind, this modern finance tracker empowers you to take full control of your money—without the clutter. Easily track your expenses, uncover meaningful insights through smart analytics, and securely manage your financial data—all from a sleek, mobile-responsive interface. Whether you're budgeting on the go or reviewing your yearly trends, CashFlow Commander keeps you in command.
+CashFlow Commander is your streamlined solution for mastering personal finance. Designed with both functionality and user experience in mind, this modern finance tracker empowers you to take full control of your money—without the clutter. Easily track your expenses, uncover meaningful insights through smart analytics, and securely manage your financial data—all from a sleek, mobile-responsive interface. Whether you're budgeting on the go or reviewing your yearly trends, CashFlow Commander keeps you in command. This App is deployed using Railway...
+
+## 🚀 Deployed Application
+[Click here to view the live app!](https://vishnus-cashflow-commander.up.railway.app/)
 
 ![Dashboard Preview](image.png)  
 *A modern, intuitive way to track your finances*
@@ -28,7 +31,7 @@ CashFlow Commander is your streamlined solution for mastering personal finance. 
 - psycopg2 (Database Adapter)
 
 **Infrastructure**:
-- Render/Railway ready
+- Railway ready
 - Gunicorn (Production WSGI Server)
 - dotenv (Environment Management)
 
