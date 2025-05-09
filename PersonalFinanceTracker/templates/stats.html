@@ -25,6 +25,8 @@
         <!-- ========== DATA TABLES FIRST ========== -->
         <section class="stats-section">
             <h2>Daily Spending</h2>
+             <!-- Section showing a breakdown of daily expenses.
+                 Useful for tracking short-term spending habits. -->
             <table>
                 <thead>
                     <tr>
@@ -45,6 +47,9 @@
 
         <section class="stats-section">
             <h2>Monthly Spending</h2>
+            <!-- Section summarizing monthly expense totals.
+                 Helps identify recurring or growing costs over time. -->
+
             <table>
                 <thead>
                     <tr>
@@ -106,6 +111,7 @@
 
     <!-- ======== Chart.js Script ======== -->
     <script>
+                // Converts Python data (passed via Flask context) into JSON for JS use.
         const dailyLabels = {{ daily_stats | map(attribute=0) | list | tojson }};
         const dailyData = {{ daily_stats | map(attribute=1) | list | tojson }};
         const monthlyLabels = {{ monthly_stats | map(attribute=0) | list | tojson }};
@@ -113,6 +119,8 @@
         const yearlyLabels = {{ yearly_stats | map(attribute=0) | list | tojson }};
         const yearlyData = {{ yearly_stats | map(attribute=1) | list | tojson }};
 
+        // Function to configure a Chart.js line chart.
+        // Takes canvas ID, label list, data list, and chart label text
         const configChart = (id, labels, data, label) => {
             new Chart(document.getElementById(id), {
                 type: 'line',
