@@ -27,3 +27,16 @@ want to use uv for projects -> go to your project repo and type -> uv init
 
 dependencies used in this project -> langchain, langgraph, python-dotenv, langchain-openai
 
+LLM - It's a language model used in AI projects to build efficient AI Models..exp - GPT-4, Grok, Claude 3.7, etc..
+
+Langchain is a high level framework used to build AI applications.
+
+langgraph is a complex framweork used to build AI agents..
+
+langchain-open ai allows us to use openai within langchain and langgraph..
+
+the higher the temperature, the random the model..
+
+create_react_agent is a prebuilt agent taken from the langchain library. it takes a model and tools as inputs..
+
+chunks are parts of response coming from the agent...
