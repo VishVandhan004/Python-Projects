@@ -57,6 +57,7 @@ def main():
                     print(message.content, end="")
         print()
         
+# the below if __name__ == "__main__": statement is used to run the main function if the file is direct not imported from another file..    
 if __name__ == "__main__":
     main()
                 
