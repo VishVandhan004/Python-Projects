@@ -1,0 +1,26 @@
+UV
+
+We are using uv instead of pip to download the dependencies of the project..
+
+uv is a python package and project manager, written in rust..
+
+almost 100 times faster than pip...
+
+want to install a python version -> uv python install 3.8 / 3.7 / etc..
+
+want to find a python version -> uv python find 3.8 / etc..
+
+want to uninstall a python version -> uv python uninstall 
+
+want to run a python file -> uv run file_name.py
+
+want to run a python file at a specific version..-> uv run --python 3.10.0 file_name.py
+
+want to run a python file with a dependancy-> uv run --with rich --python 3.10.0 file_name.py (rich is a dependancy)
+
+we can directly add all the dependencies in an array. and we can download those present in the array..
+step 1 -> uv init --script main.py --python 3.10.0
+this adds the script in the python file..
+step 2 -> you can add the dependencies in the dependancy array there or you can seperately type the uv command like -> uv add --script main.py "rich" and then run the file..
+
+want to use uv for projects -> go to your project repo and type -> uv init
