@@ -1,10 +1,11 @@
 
 # 💼 AstraDoc AI — Enterprise Document Intelligence Platform
 
-AstraDoc AI is a professional-grade document intelligence system that enables users to analyze, summarize, and extract factual insights from business documents using NVIDIA's enterprise-scale LLMs. It features two modes: a general-purpose AI assistant and a specialized document analysis suite.
-
+AstraDoc AI is a professional-grade document intelligence system that enables users to analyze, summarize, and extract factual insights from business documents using NVIDIA's enterprise-scale LLMs. It features two modes: a general-purpose AI assistant and a specialized document analysis suite. The App is deployed on Streamlit Cloud.
 ---
 
+## 🤖 App is Deployed on Streamlit Cloud
+The App is deployed on Streamlit Cloud. Do use it. [Live Demo](https://vishnus-astradoc-ai.streamlit.app/)
 ## 🚀 Features
 
 - 📁 **Multi-Format Support**: Upload and process PDF, DOCX, TXT, and PPTX files, or analyze documents via URLs.
