@@ -1,6 +1,5 @@
 
 # 💼 AstraDoc AI — Enterprise Document Intelligence Platform
-
 AstraDoc AI is a professional-grade document intelligence system that enables users to analyze, summarize, and extract factual insights from business documents using NVIDIA's enterprise-scale LLMs. It features two modes: a general-purpose AI assistant and a specialized document analysis suite. The App is deployed on Streamlit Cloud.
 ---
 
@@ -200,14 +199,6 @@ This project is intended for educational and enterprise prototype use. For produ
 ## 🙋‍♀️ Contributors
 
 Built by Vishnu Vandhan
-
----
-
-## 📬 Contact
-
-For support, suggestions, or enterprise integrations:
-📧 your.email@domain.com  
-🔗 [LinkedIn](https://linkedin.com/in/yourprofile) | [GitHub](https://github.com/yourusername)
 
 ---
 
