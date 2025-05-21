@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scam Link Detector</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🚨 Scam Link Detector</h1>
+    <form method="post">
+      <input
+        type="url"
+        name="url"
+        placeholder="Enter suspicious URL"
+        required
+        value="{{ url if url else '' }}"
+      />
+      <button type="submit">Check Link</button>
+    </form>
+
+    {% if error %}
+    <div class="error">Error: {{ error }}</div>
+    {% endif %}
+
+    {% if result %}
+    <div class="result">
+      <h2>Results for: <em>{{ url }}</em></h2>
+      <p><strong>Verdict:</strong> 
+        <span class="{{ 'safe' if result.verdict == 'Safe' else 'scam' }}">
+          {{ result.verdict }}
+        </span>
+      </p>
+      <ul>
+        <li>
+          <strong>Harmless:</strong> {{ result.harmless }}<br />
+          → {{ result.harmless }} vendors said: "This URL is clean."
+        </li>
+        <li>
+          <strong>Malicious:</strong> {{ result.malicious }}<br />
+          → {% if result.malicious == 0 %}
+            None said it's confirmed malicious.
+          {% else %}
+            {{ result.malicious }} vendor(s) flagged this URL as malicious.
+          {% endif %}
+        </li>
+        <li>
+          <strong>Suspicious:</strong> {{ result.suspicious }}<br />
+          → {% if result.suspicious == 0 %}
+            None flagged it as suspicious.
+          {% elif result.suspicious == 1 %}
+            1 vendor said: "This looks weird, but not necessarily malicious."
+          {% else %}
+            {{ result.suspicious }} vendors said it looks suspicious.
+          {% endif %}
+        </li>
+        <li>
+          <strong>Undetected:</strong> {{ result.undetected }}<br />
+          → {{ result.undetected }} didn’t make a judgment — maybe not enough info.
+        </li>
+        <li>
+          <strong>Timeout:</strong> {{ result.timeout }}<br />
+          → {% if result.timeout == 0 %}
+            No vendors timed out.
+          {% else %}
+            {{ result.timeout }} vendors timed out during analysis.
+          {% endif %}
+        </li>
+      </ul>
+
+      <div class="explanation">
+        {% if result.malicious > 0 %}
+          <p>⚠️ One or more security vendors flagged this URL as <strong>malicious</strong>. This typically means the URL is confirmed to be unsafe (e.g., phishing, malware, or scam).</p>
+        {% elif result.suspicious >= 3 %}
+          <p>🚧 Several vendors flagged this URL as <strong>suspicious</strong>. It may have strange behavior, redirects, or shady features. Proceed with caution.</p>
+        {% elif result.suspicious > 0 %}
+          <p>⚠️ One vendor flagged this URL as <strong>suspicious</strong>. This might be a false positive, but it's good to stay alert.</p>
+        {% elif result.harmless > 0 and result.malicious == 0 and result.suspicious == 0 %}
+          <p>✅ Most vendors reported this URL as <strong>harmless</strong>. It appears safe to visit.</p>
+        {% else %}
+          <p>🤷 The scan results were inconclusive. Not enough data to make a strong decision.</p>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</body>
+</html>
