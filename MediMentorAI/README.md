@@ -96,7 +96,4 @@ Don't forget to add your `GEMINI_API_KEY` as a secret/environment variable in th
 ---
 
 ## 📬 Contact
-
-- 💼 LinkedIn: [Your Name](https://linkedin.com/in/yourprofile)
-- 🌐 Portfolio: [yourportfolio.com](https://yourportfolio.com)
-- 📧 Email: you@example.com
+Built with ❤️ by **[Vishnu](https://github.com/VishVandhan004)**
