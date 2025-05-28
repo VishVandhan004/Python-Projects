@@ -1,0 +1,17 @@
+openai
+streamlit
+python-dotenv
+PyPDF2
+python-docx
+python-pptx
+Pillow
+requests
+beautifulsoup4
+lxml
+readability-lxml
+langchain-community
+lxml_html_clean
+pypdf
+google-generativeai
+replicate
+huggingface-hub

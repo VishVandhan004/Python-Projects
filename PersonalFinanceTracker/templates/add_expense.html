@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Expense - Cashflow Commander</title>
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='favicon.png') }}"
+      type="image/png"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Add New Expense 🏦</h1>
+        <nav>
+          <a href="{{ url_for('dashboard') }}">Dashboard</a>
+          <a href="{{ url_for('add_expense') }}">Add Expense</a>
+          <a href="{{ url_for('stats') }}">Statistics</a>
+          <a href="{{ url_for('logout') }}">Logout</a>
+          <!-- Each link is dynamically generated with Flask’s url_for.Ensures that URL paths remain correct even if routes change. -->
+        </nav>
+      </header>
+
+      <section class="expense-form">
+        <form method="POST" action="{{ url_for('add_expense') }}">
+          <!-- Sends form data via POST method to the server.The action URL is linked to the Flask route that handles insertion. -->
+          <div class="form-group">
+            <label for="amount">Amount (₹)</label>
+            <input
+              type="number"
+              id="amount"
+              name="amount"
+              step="0.01"
+              min="0"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category" name="category" required>
+              <option value="Food 🍴">Food 🍴</option>
+              <option value="Transportation 🚗">Transportation 🚗</option>
+              <option value="Housing">Housing 🏠</option>
+              <option value="Entertainment 🎬">Entertainment 🎬</option>
+              <option value="Utilities 💳">Utilities 💳</option>
+              <option value="Healthcare ❤️‍🩹">Healthcare ❤️‍🩹</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="note">Note (Optional)</label>
+            <textarea id="note" name="note" rows="2"></textarea>
+          </div>
+          <button type="submit" class="btn">Add Expense</button>
+          <!-- Submit button to trigger the form.
+                     Styled using a CSS class for visual consistency. -->
+        </form>
+      </section>
+    </div>
+  </body>
+</html>

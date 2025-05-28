@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stats - Cashflow Commander</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Your Spending Statistics 🔢</h1>
+            <nav>
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('add_expense') }}">Add Expense</a>
+                <a href="{{ url_for('stats') }}">Statistics</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            </nav>
+        </header>
+
+        <!-- ========== DATA TABLES FIRST ========== -->
+        <section class="stats-section">
+            <h2>Daily Spending</h2>
+             <!-- Section showing a breakdown of daily expenses.
+                 Useful for tracking short-term spending habits. -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Total Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for day in daily_stats %}
+                    <tr>
+                        <td>{{ day[0] }}</td>
+                        <td>₹{{ "%.2f"|format(day[1]) }}/-</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <section class="stats-section">
+            <h2>Monthly Spending</h2>
+            <!-- Section summarizing monthly expense totals.
+                 Helps identify recurring or growing costs over time. -->
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Total Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for month in monthly_stats %}
+                    <tr>
+                        <td>{{ month[0] }}</td>
+                        <td>₹{{ "%.2f"|format(month[1]) }}/-</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <section class="stats-section">
+            <h2>Yearly Spending</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Year</th>
+                        <th>Total Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for year in yearly_stats %}
+                    <tr>
+                        <td>{{ year[0] }}</td>
+                        <td>₹{{ "%.2f"|format(year[1]) }}/-</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <!-- ========== SEPARATE CHARTS SECTION ========== -->
+        <section class="charts-section">
+            <h2>Visual Representation 📊</h2>
+
+            <div>
+                <h3>Daily Spending Chart</h3>
+                <canvas id="dailyChart" height="100"></canvas>
+            </div>
+
+            <div>
+                <h3>Monthly Spending Chart</h3>
+                <canvas id="monthlyChart" height="100"></canvas>
+            </div>
+
+            <div>
+                <h3>Yearly Spending Chart</h3>
+                <canvas id="yearlyChart" height="100"></canvas>
+            </div>
+        </section>
+    </div>
+
+    <!-- ======== Chart.js Script ======== -->
+    <script>
+                // Converts Python data (passed via Flask context) into JSON for JS use.
+        const dailyLabels = {{ daily_stats | map(attribute=0) | list | tojson }};
+        const dailyData = {{ daily_stats | map(attribute=1) | list | tojson }};
+        const monthlyLabels = {{ monthly_stats | map(attribute=0) | list | tojson }};
+        const monthlyData = {{ monthly_stats | map(attribute=1) | list | tojson }};
+        const yearlyLabels = {{ yearly_stats | map(attribute=0) | list | tojson }};
+        const yearlyData = {{ yearly_stats | map(attribute=1) | list | tojson }};
+
+        // Function to configure a Chart.js line chart.
+        // Takes canvas ID, label list, data list, and chart label text
+        const configChart = (id, labels, data, label) => {
+            new Chart(document.getElementById(id), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: label,
+                        data: data,
+                        backgroundColor: '#3498db',
+                        borderRadius: 5,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: value => '₹' + value.toLocaleString()
+                            }
+                        }
+                    }
+                }
+            });
+        };
+
+        configChart('dailyChart', dailyLabels, dailyData, 'Daily Total');
+        configChart('monthlyChart', monthlyLabels, monthlyData, 'Monthly Total');
+        configChart('yearlyChart', yearlyLabels, yearlyData, 'Yearly Total');
+    </script>
+</body>
+</html>

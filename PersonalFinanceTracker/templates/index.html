@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashflow Commander</title>
+    <!-- Links the favicon shown in the browser tab.
+         Dynamically resolves the file path using Flask's `url_for`. -->
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Cashflow Commander - Your Personal Finance Tracker 💵</h1>
+            <p><strong>CashFlow Commander </strong>is your streamlined solution for mastering personal finance. Designed with both functionality and user experience in mind, this modern finance tracker empowers you to take full control of your money—without the clutter.
+            Easily track your expenses, uncover meaningful insights through smart analytics, and securely manage your financial data—all from a sleek, mobile-responsive interface. Whether you're budgeting on the go or reviewing your yearly trends, CashFlow Commander keeps you in command.</p>
+        </header>
+        
+        <div class="auth-buttons">
+            <!-- Button linking to the login page.
+                 Flask’s `url_for` ensures correct routing even if the URL changes. -->
+            <a href="{{ url_for('login') }}" class="btn">Login</a>
+            <a href="{{ url_for('signup') }}" class="btn">Sign Up</a>
+        </div>
+    </div>
+</body>
+</html>

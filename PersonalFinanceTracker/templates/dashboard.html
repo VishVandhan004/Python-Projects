@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard - Cashflow Commander</title>
+        <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/png">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Welcome to Your Finance Dashboard 🏦</h1>
+            <nav>
+                 <!-- Flask’s `url_for` generates dynamic URLs for the routes.
+                     Ensures correct linking even if route paths change. -->
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('add_expense') }}">Add Expense</a>
+                <a href="{{ url_for('stats') }}">Statistics</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            </nav>
+        </header>
+        
+        <div class="summary-card">
+            <!-- Displays the total amount spent, formatted to two decimal places.
+                 `total` is a variable passed from the Flask backend. -->
+            <h3>Total Spent: ₹ {{ "%.2f"|format(total) }} /- </h3>
+        </div>
+        
+        <section class="recent-expenses">
+            <h2>Recent Expenses</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Amount</th>
+                        <th>Category</th>
+                        <th>Note</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for expense in expenses %}
+                    <!-- Jinja2 loop to iterate through each expense.
+                         Populates table rows using data from the backend. -->
+                    <tr>
+                        <td>₹ {{ "%.2f"|format(expense[0]) }} /-</td>
+                        <td>{{ expense[1] }}</td>
+                        <td>{{ expense[2] }}</td>
+                        <td>{{ expense[3].strftime('%Y-%m-%d %H:%M') }}</td>
+                    </tr>
+                    {% endfor %}
+                    <!-- Ends the Jinja2 loop over all expenses.
+                         Ensures all rows are rendered dynamically. -->
+                </tbody>
+            </table>
+        </section>
+    </div>
+</body>
+</html>

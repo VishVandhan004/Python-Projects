@@ -1,0 +1,125 @@
+🌟 PROJECT OVERVIEW
+Name: AstraDoc AI
+Purpose: A professional-grade web app to analyze documents (PDF, DOCX, PPTX, TXT, URL-based), generate executive summaries, and answer user questions from document content using LLMs.
+
+⚙️ WORKING & FLOW (STEP BY STEP)
+1. User Interface with Streamlit
+The app runs in the browser using Streamlit.
+Users can:
+Switch between two modes:
+AI Chat Assistant (general conversation)
+Document Intelligence (upload and analyze documents)
+
+2. Document Upload/Input
+Users can provide documents in two ways:
+Upload File: Upload PDF, DOCX, TXT, or PPTX.
+Enter URL: Link to a publicly accessible document or web page.
+Uploaded files are processed using a custom extract module:
+extract_text_from_pdf()
+extract_text_from_docx()
+extract_text_from_txt()
+extract_text_from_pptx()
+extract_text_from_url()
+
+3. Document Processing
+The raw text is extracted and stored in session state.
+Text is split into chunks (with overlap) to fit LLM token limits.
+Token estimation assumes ~4 characters per token.
+Each chunk is then sent to the NVIDIA LLM for summarization.
+
+4. Summarization
+User can choose summary type:
+Brief
+Detailed
+Key Points
+Each type defines how many tokens the LLM should output:
+Prompt: "Provide a [summary_type] professional summary of this document..."
+Responses from each chunk are concatenated for a full document summary.
+
+5. Q&A System
+Users type questions.
+A custom prompt is created: “Answer this question based ONLY on the provided text...”
+The app sends the prompt to the LLM with the entire document content.
+The LLM answers only if it finds factual support in the content.
+
+6. AI Chat Mode
+A separate mode for general AI conversation.
+Maintains chat history using Streamlit’s session_state.
+Prompts the LLM with previous messages (last 6 exchanges) for context.
+
+🧠 INTELLIGENCE ENGINE (NVIDIA LLM)
+LLM Provider: NVIDIA
+Model: nvidia/llama-3.3-nemotron-super-49b-v1
+API Interface: OpenAI-compatible SDK
+Endpoint: https://integrate.api.nvidia.com/v1
+API Key: Stored in .env as NVIDIA_API_KEY
+
+🧰 TECH STACK (EXPLAINED)
+Layer	Technology	Purpose
+Frontend - Streamlit - Interactive web UI with chat input and document tools
+Backend	Python	Application logic, document parsing, LLM prompting
+NLP Engine	NVIDIA LLM API	Text summarization, factual Q&A, general conversation
+Environment	python-dotenv	Securely loads API keys from .env files
+Text Extraction	Custom extract.py module	Extracts text from multiple file formats
+Session Memory	streamlit.session_state	Maintains chat history and document state across reloads
+
+🗂 FILE STRUCTURE (RECOMMENDED)
+AstraDoc/
+├── app.py                # Main Streamlit app
+├── extract.py            # Custom text extraction module
+├── .env                  # Secure API key storage
+├── requirements.txt      # Python dependencies
+└── README.md             # Project documentation
+
+📦 DEPENDENCIES (requirements.txt)
+streamlit
+openai
+python-dotenv
+python-docx
+PyPDF2
+python-pptx
+requests
+
+✅ FEATURES CHECKLIST
+Feature	Included
+Multi-file support	✅
+URL document support	✅
+Document summarization	✅
+Q&A from document	✅
+AI assistant (chat mode)	✅
+Secure API usage	✅
+UI customization	✅
+NVIDIA LLM integration	✅
+Scalable architecture	✅
+
+
+
+🧠 PROMPT DESIGN STRATEGY
+Summarization Prompt:
+Provide a [summary_type] professional summary of this document. Use complete sentences, no bullet points.
+Q&A Prompt:
+Answer this question based ONLY on the provided text. Be precise and professional...
+Chat Prompt:
+You are a professional AI assistant. Provide concise, helpful responses.
+This strategy ensures:
+Controlled, factual, and consistent outputs
+Reliable summarization
+Trustworthy Q&A behavior
+
+🚀 DEPLOYMENT OPTIONS
+🔧 Local
+pip install -r requirements.txt
+streamlit run app.py
+☁️ Cloud (Options)
+Streamlit Cloud
+Hugging Face Spaces (with Gradio as fallback)
+Docker + AWS EC2/GCP
+FastAPI backend + React frontend (advanced)
+
+📘 USE CASES
+Business report analysis
+Legal document summarization
+Resume screening
+Scientific paper review
+Compliance document Q&A
+Meeting minutes summarization
