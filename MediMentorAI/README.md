@@ -1,99 +1,152 @@
-# 🧠 MediMentor AI – Smart Health Symptom Checker
+# MediMentor AI – Your Health Companion
 
-> *Your personal AI-powered guide to understanding symptoms and receiving wellness tips.*
-
----
-
-## 🚀 Features
-
-✅ **Gemini AI–powered** symptom interpretation  
-✅ Easy-to-use **Streamlit interface**  
-✅ Provides **possible conditions** based on symptoms  
-✅ Offers **non-diagnostic self-care advice**  
-✅ Mobile & desktop responsive  
-✅ Fully deployable (Streamlit, Render, Railway)
+![MediMentor AI]  
+*Your AI-powered personal health assistant.*
 
 ---
 
-## 🎯 Why This Project?
+## Project Overview
 
-Most people search symptoms online and land on confusing or inaccurate results. **MediMentor AI** provides a cleaner, AI-powered, and non-threatening way to learn about common conditions and tips — without acting as a doctor.
+**MediMentor AI** is an AI-powered health assistant web application built with Streamlit. It helps users analyze their symptoms, get probable health conditions, receive specialist recommendations, find nearby hospitals, learn about medicines, and export their health reports — all from an easy-to-use interface.
 
-It combines:
-
-- 🧬 Natural Language Processing (via **Gemini AI**)  
-- 💻 Deployable frontend (**Streamlit**)  
-- 💡 Real-world impact in health tech  
-
-Perfect for showcasing your skills in **AI, APIs, and frontend integration**.
+Powered by Gemini AI and open geolocation data, MediMentor AI aims to be your go-to digital health companion for quick and informative health insights.
 
 ---
 
-## 📦 Tech Stack
+## Live Demo
 
-| Layer        | Tool / API         |
-|--------------|--------------------|
-| 🤖 AI Model  | [Gemini Pro](https://ai.google.dev) |
-| 🌐 Frontend  | Streamlit          |
-| 🔒 Secrets   | Python Dotenv      |
-| 🧠 Logic     | Custom Python + Gemini prompts |
+Access the deployed app here:  
+👉 [https://vishnus-medimentor-ai.streamlit.app/](https://vishnus-medimentor-ai.streamlit.app/)
 
 ---
 
-## 🔧 Installation
+## Features
 
-1. **Clone the repo**  
-```bash
-git clone https://github.com/yourusername/medimentor-ai.git
-cd medimentor-ai
-```
+- **Symptom Checker:**  
+  Enter symptoms to get AI-generated probable conditions, recommended specialists, risk levels, and helpful health tips.
 
-2. **Set up environment**  
-```bash
-pip install -r requirements.txt
-```
+- **Medicine Information:**  
+  Search for medicines to receive detailed information and usage tips.
 
-3. **Create `.env` file**
-```env
-GEMINI_API_KEY=your_gemini_api_key_here
-```
+- **Nearby Hospitals Finder:**  
+  Enter your postal pincode to locate hospitals near your area using OpenStreetMap data.
 
-4. **Run the app**
-```bash
-streamlit run app.py
-```
+- **Symptom History:**  
+  Your past symptom analyses are saved locally for reference.
+
+- **Export to PDF:**  
+  Generate and download a comprehensive PDF report of your symptom analysis.
 
 ---
 
-## 🌍 Deploy Options
+## Tech Stack & Libraries
 
-- ✅ [Streamlit Cloud](https://streamlit.io/cloud)
-- ✅ [Render](https://render.com/)
-- ✅ [Railway](https://railway.app)
-
-Don't forget to add your `GEMINI_API_KEY` as a secret/environment variable in the deployment platform.
-
----
-
-## 📌 Disclaimer
-
-> MediMentor AI does **not** provide medical advice or diagnosis.  
-> Always consult a licensed medical professional for real-world health issues.
+- **Python 3.8+**
+- **Streamlit:** Web interface
+- **Gemini AI API:** AI-powered health insights
+- **SQLite3:** Local database for symptom history
+- **Geopy:** Geocoding pincode to coordinates using OpenStreetMap Nominatim
+- **Overpass API:** Querying nearby hospitals from OpenStreetMap
+- **FPDF / ReportLab (or similar):** PDF report generation
+- **Requests, Pandas:** HTTP requests and data handling
 
 ---
 
-## 📁 File Structure
+## Project Structure
 
 ```
-📁 medimentor-ai/
-├── app.py
-├── gemini.py
-├── .env.example
-├── requirements.txt
-└── README.md
+/medimentor-ai
+│
+├── app.py                  # Main Streamlit app
+├── gemini.py               # Gemini AI API integrations
+├── utils.py                # Helper functions (DB, geolocation, hospital search, PDF export)
+├── database.py             # SQLite3 DB connection and schema
+├── requirements.txt        # Python dependencies
+└── README.md               # Project documentation
 ```
 
 ---
 
-## 📬 Contact
-Built with ❤️ by **[Vishnu](https://github.com/VishVandhan004)**
+## Installation & Setup
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/yourusername/medimentor-ai.git
+   cd medimentor-ai
+   ```
+
+2. Create and activate a virtual environment (optional but recommended):
+
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   ```
+
+3. Install the required packages:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Configure your Gemini AI API credentials inside `gemini.py` as needed.
+
+5. Run the Streamlit app:
+
+   ```bash
+   streamlit run app.py
+   ```
+
+6. Open the URL displayed by Streamlit (usually http://localhost:8501) in your browser.
+
+---
+
+## Usage
+
+- Enter your symptoms in the text area.
+- Optionally, enter a postal pincode to get nearby hospital suggestions.
+- Click **Analyze** to get your health insights.
+- Use the sidebar to search for medicine information.
+- Export your report to PDF for sharing or printing.
+- Your symptom history will be saved in the local SQLite database.
+
+---
+
+## APIs & Services Used
+
+- **Gemini AI API:** For AI-powered symptom analysis, health tips, and medicine info.
+- **OpenStreetMap Nominatim (via Geopy):** Converts pincode to latitude and longitude.
+- **OpenStreetMap Overpass API:** Finds hospitals near the coordinates.
+- **SQLite:** Stores symptom history locally.
+- **Streamlit:** User interface and web app framework.
+
+---
+
+## Future Improvements
+
+- Add multi-language support and real-time translation.
+- Voice input for symptom descriptions.
+- Machine learning-based risk prediction.
+- User authentication and cloud-based data storage.
+- Appointment booking and emergency contact features.
+- Enhanced UI/UX and mobile responsiveness.
+
+---
+
+## Disclaimer
+
+**MediMentor AI** is designed for informational purposes only. It is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a licensed healthcare provider for medical concerns.
+
+---
+
+## Contact
+
+For questions, suggestions, or contributions, please contact:
+
+- **Vishnu Vandhan**    
+- GitHub: [VishVandhan004](https://github.com/VishVandhan004)
+
+---
+
+Thank you for using **MediMentor AI – Your Health Companion**!  
+Built with ❤️ using Gemini AI & Streamlit.

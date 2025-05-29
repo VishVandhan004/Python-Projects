@@ -1,0 +1,105 @@
+MediMentor AI – Your Health Companion
+A Streamlit-based AI-powered Health Assistant App
+
+Project Overview:
+MediMentor AI is a comprehensive health assistant web application designed to help users:
+Analyze their symptoms using AI.
+Receive probable conditions, health tips, and risk levels.
+Get specialist recommendations.
+Look up medicine information.
+Find nearby hospitals by entering a postal pincode.
+Export a PDF report of their symptom analysis.
+Save symptom history in a local database for future reference.
+
+Tech Stack & Libraries:
+Python 3.8+
+Streamlit: for building the interactive web interface.
+Gemini AI API: for AI-powered symptom analysis, health tips, and medicine information.
+SQLite3: to save symptom history locally in a lightweight database.
+Geopy: for geocoding the pincode (using OpenStreetMap’s Nominatim).
+Overpass API (OpenStreetMap): for fetching nearby hospitals based on latitude and longitude.
+Other Python modules: requests, pandas, FPDF (or your chosen PDF library) for data handling and PDF export.
+
+Project Components and Files:
+1. app.py
+The main Streamlit app file, handles the UI and integrates all features:
+Symptom input and AI analysis.
+Medicine info sidebar.
+Pincode input for hospital suggestions.
+Displays probable conditions, specialists, risk level, health tips.
+Shows medicine suggestions and nearby hospitals.
+Exports report to PDF.
+Saves symptom history.
+
+2. gemini.py
+Contains functions to interact with Gemini AI API:
+
+get_conditions(symptoms)
+get_health_tips(symptoms)
+get_medicine_info(medicine_name)
+These functions send requests to Gemini AI and parse responses for use in the app.
+
+3. utils.py
+Utility functions including:
+
+get_specialist(symptoms): Maps symptoms to specialists.
+get_risk_level(symptoms): Simple risk-level classification.
+save_symptom_history(symptoms, conditions, tips): Saves data into SQLite DB.
+export_to_pdf(symptoms, conditions, specialist, risk_level, tips): Generates and returns a PDF report link.
+suggest_medicines(symptoms): Suggests medicines based on symptoms.
+medicine_info_links(medicines): Generates clickable links for medicines.
+get_lat_lng_from_pincode_nominatim(pincode): Uses Geopy to get lat/lon from postal code.
+get_hospitals_nearby_overpass(lat, lon): Queries Overpass API for nearby hospitals.
+
+4. database.py
+Handles SQLite DB connection and schema:
+Creates a table for symptom history with columns: id, datetime, symptoms, conditions, health tips.
+Functions to insert and retrieve records.
+
+5. requirements.txt
+Lists all Python packages used:
+
+streamlit
+requests
+geopy
+fpdf
+pandas
+sqlite3 (builtin)
+Key Features:
+1. Symptom Checker
+User enters symptoms, and Gemini AI returns probable health conditions, recommended specialists, risk level, and helpful health tips.
+
+2. Medicine Information
+Sidebar allows users to input medicine names and fetch information from Gemini AI.
+
+3. Hospital Locator
+User inputs postal pincode; app uses Geopy to get coordinates and Overpass API to list nearby hospitals.
+
+4. Symptom History
+All analyzed symptoms, conditions, and tips are saved in a local SQLite database for record-keeping.
+
+5. PDF Report Export
+Users can export their symptom analysis results into a downloadable PDF report.
+
+Third-Party APIs Used:
+Gemini AI API: For symptom analysis, health tips, and medicine info.
+OpenStreetMap Nominatim (via Geopy): To convert postal code into latitude and longitude.
+OpenStreetMap Overpass API: To find hospitals near the coordinates.
+
+Future Enhancement Ideas:
+Add multi-language support with translation.
+Integrate voice input for symptom entry.
+Include risk prediction models using ML.
+Add user authentication and cloud DB for persistent user profiles.
+Enhance UI/UX with better visualization and interactivity.
+Add appointment booking links with hospitals.
+Provide emergency contact info based on location.
+
+How To Run The Project:
+Clone or download the project files.
+
+Install dependencies:
+pip install -r requirements.txt
+Run the Streamlit app:
+streamlit run app.py
+Open the local URL provided by Streamlit to use the app.

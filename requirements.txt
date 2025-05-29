@@ -15,3 +15,4 @@ pypdf
 google-generativeai
 replicate
 huggingface-hub
+fpdf
