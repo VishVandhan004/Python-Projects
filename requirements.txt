@@ -1,6 +1,5 @@
 openai
 streamlit
-python-dotenv
 PyPDF2
 python-docx
 python-pptx
