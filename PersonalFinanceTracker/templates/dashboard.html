@@ -15,6 +15,7 @@
                  <!-- Flask’s `url_for` generates dynamic URLs for the routes.
                      Ensures correct linking even if route paths change. -->
                 <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('investments') }}">My Portfolio</a>
                 <a href="{{ url_for('add_expense') }}">Add Expense</a>
                 <a href="{{ url_for('stats') }}">Statistics</a>
                 <a href="{{ url_for('logout') }}">Logout</a>
@@ -46,7 +47,7 @@
                         <td>₹ {{ "%.2f"|format(expense[0]) }} /-</td>
                         <td>{{ expense[1] }}</td>
                         <td>{{ expense[2] }}</td>
-                        <td>{{ expense[3].strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>{{ expense[3] }}</td>
                     </tr>
                     {% endfor %}
                     <!-- Ends the Jinja2 loop over all expenses.
