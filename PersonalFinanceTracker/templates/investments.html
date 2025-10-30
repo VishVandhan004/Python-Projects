@@ -26,21 +26,9 @@
           <a href="{{ url_for('logout') }}">Logout</a>
         </nav>
       </header>
-
-      <div
-        style="
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 30px;
-          padding-bottom: 20px;
-          border-bottom: 1px solid #34495e;
-        "
-      >
-        <h1>💰 Investment Portfolio</h1>
-        <button class="btn btn-primary" onclick="toggleInvestmentForm()">
-          + Add Investment
-        </button>
+      <div class="dashboard-header">
+          <h1>💰 Investment Portfolio</h1>
+          <button class="btn btn-primary" onclick="toggleInvestmentForm()">+ Add Investment</button>
       </div>
 
       <!-- Flash Messages -->

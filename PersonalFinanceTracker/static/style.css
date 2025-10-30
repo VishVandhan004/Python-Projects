@@ -90,6 +90,30 @@ nav a:hover {
     background-color: #5d6d7e;
 }
 
+/* ==== Dashboard Header ==== */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #34495e;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.dashboard-header h1 {
+    color: #ffffff;
+    font-size: 2rem;
+    margin: 0;
+    flex: 1;
+    min-width: 200px;
+}
+
+.dashboard-header .btn {
+    flex-shrink: 0;
+}
+
 /* ==== Forms ==== */
 .auth-form,
 .expense-form {
@@ -248,6 +272,24 @@ table tr:hover {
     .btn {
         width: 100%;
         margin-bottom: 10px;
+    }
+
+    /* Investment header responsiveness */
+    .dashboard-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .dashboard-header .btn {
+        width: 100%;
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-header h1 {
+        font-size: 1.8rem;
     }
 }
 
