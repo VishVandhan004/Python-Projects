@@ -22,8 +22,8 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 # Function to generate a response using Gemini AI based on a prompt
 def get_gemini_response(prompt):
-    # Initialize the Gemini model (using the 'gemini-1.5-flash' variant)
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    # Initialize the Gemini model (using the 'gemini-2.0-flash' variant)
+    model = genai.GenerativeModel('gemini-2.0-flash')
 
     # Generate a response based on the given prompt
     response = model.generate_content(prompt)

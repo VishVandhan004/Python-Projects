@@ -23,7 +23,7 @@ Many companies use ATS software to **automatically screen resumes** before a hum
 
 * ✅ **Text Extraction**: It reads the uploaded PDF resume using `PyPDF2`.
 * 🔍 **Contextual Matching**: It compares resume content with the job description for keyword and skill overlap.
-* 🤖 **AI Evaluation**: A well-crafted prompt is sent to **Gemini 1.5 Flash**, a powerful LLM, which:
+* 🤖 **AI Evaluation**: A well-crafted prompt is sent to **Gemini 2.0 Flash**, a powerful LLM, which:
 
   * Evaluates keyword alignment
   * Estimates ATS score
